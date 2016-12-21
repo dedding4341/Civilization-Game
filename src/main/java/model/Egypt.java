@@ -1,28 +1,39 @@
 package model;
 
+/**
+ * Represents the Egypt Civilization.
+ *
+ * @version 2.0
+ * @author Angie Palm, Jim Harris
+ */
+public class Egypt extends Civilization {
+    private Desert desert = new Desert();
 
-class Egypt extends Civilization {
-
+    /**
+     * Public constructor.
+     */
     public Egypt() {
-        setName("Egypt");
+        super("Egypt");
     }
-
 
     @Override
     public String explore() {
-        int resourceFound = getDesert().findTreasure();
-        getTreasury().earn(resourceFound);
+        int gold = desert.findTreasure();
+        getTreasury().earn(gold);
+        return "You explore the desert and find " + gold + " gold!";
+    }
 
-        return "You explore your surroundings and acquire "
-            + resourceFound + " resources!";
+    /**
+     * @return this civilization's Desert.
+     */
+    public Desert getDesert() {
+        return desert;
     }
 
     @Override
     public RangedUnit getRangedUnit() {
-        return new WarChariot(this);
+        return new WarChariotUnit(this);
     }
-
-
 
     @Override
     public Landmark getLandmark() {

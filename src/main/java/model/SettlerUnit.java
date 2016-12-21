@@ -1,26 +1,43 @@
 package model;
 
-class SettlerUnit extends Unit implements Convertable {
+import controller.TileType;
+import javafx.scene.image.Image;
+
+/**
+ * Represents a Settler unit that can build a Settlement.
+ *
+ * @version 1.0
+ * @author Jim Harris
+ */
+public class SettlerUnit extends Unit implements Convertable {
 
     private String townName;
 
+    /**
+     * Public constructor.
+     *
+     * @param owner the owner of this unit.
+     * @param townName the name of the Settlement this unit will build.
+     */
     public SettlerUnit(Civilization owner, String townName) {
         super(owner);
         this.townName = townName;
     }
 
+    @Override
     public Building convert() {
         getOwner().incrementNumSettlements();
-        return new Settlement(getOwner(), townName);
+        return getOwner().getSettlement(townName);
     }
 
+    @Override
     public boolean canConvert(TileType type) {
-        if (type == TileType.PLAINS) {
-            convert();
-            return true;
-        } else {
-            return false;
-        }
+        return type == TileType.PLAINS;
+    }
+
+    @Override
+    public char symbol() {
+        return 's';
     }
 
     @Override
@@ -29,7 +46,8 @@ class SettlerUnit extends Unit implements Convertable {
     }
 
     @Override
-    public char symbol() {
-        return 's';
+    public Image getImage() {
+        return new Image(
+                "File:./src/main/java/view/Civ_Icon/settler_unit_icon.PNG");
     }
 }

@@ -1,19 +1,31 @@
 package model;
 
+import javafx.scene.image.Image;
+
+/**
+ * Represents a Legion unit.
+ *
+ * @author Jim Harris
+ * @version 1.0
+ */
 class LegionUnit extends MeleeUnit {
 
-    @Override
-    public void battle(MapObject map) {
-        map.damage((int) (this.getDamage()));
-        if ((!(map.isDestroyed()))
-            && ((map instanceof MeleeUnit))) {
-            this.damage(((MilitaryUnit) map).getDamage());
-        }
-    }
-
+    /**
+     * Public constructor
+     *
+     * @param owner The owner of this unit.
+     */
     public LegionUnit(Civilization owner) {
         super(owner);
-        this.setDamage(45);
+        this.setDamage((int) (this.getDamage() * 1.5));
+    }
+
+    @Override
+    public void battle(MapObject o) {
+        o.damage(this.getDamage());
+        if (!o.isDestroyed() && o instanceof MeleeUnit) {
+            damage(((MilitaryUnit) o).getDamage());
+        }
     }
 
     @Override
@@ -23,6 +35,12 @@ class LegionUnit extends MeleeUnit {
 
     @Override
     public String toString() {
-        return "Legion Unit. " + super.toString();
+        return "Legion. " + super.toString();
     }
+
+    @Override
+    public Image getImage() {
+        return new Image("File:./src/main/java/view/Civ_Icon/legion_icon.PNG");
+    }
+
 }
